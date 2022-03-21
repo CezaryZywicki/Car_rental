@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %} | Home {% endblock %}
+{% block content %}
+
+{% load static %}
+
+<div class="banner" id="banner">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner banner-slider-inner text-center">
+            <div class="carousel-item banner-max-height active item-bg">
+                <img class="d-block w-100 h-100" src="{% static 'img/car-1.jpg' %}" alt="banner">
+                <div class="carousel-content container banner-info-2 bi-2 text-left">
+                    <h3>You can rent your car here! </h3>
+                </div>
+            </div>
+           
+        </div>
+       
+        
+        <div class="search-box-4 sb-8">
+            
+            <form action="{% url 'search' %}" method="">
+                <div class="select-parameters">
+                    <h8><b>What are your exectations?</b> </h8>
+                    <br></br>
+                <div class="form-group">
+                    <input type="text" name="keyword" placeholder="Search by name" class="form-control">
+                </div>
+               
+                <div class="form-group">
+                    <select class="form-control search-fields" name="model">
+                        <option selected="true" disabled="disabled">Model</option>
+                        {% for model in model_search %}
+                        <option value="{{model}}">{{model}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control search-fields" name="city">
+                        <option selected="true" disabled="disabled">City</option>
+                        {% for city in city_search %}
+                        <option value="{{city}}">{{city}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control search-fields" name="year">
+                        <option selected="true" disabled="disabled">Production Year</option>
+                        {% for year in year_search %}
+                        <option value="{{year}}">{{year}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+               
+                <div class="range-slider clearfix">
+                                <label>Price</label>
+                                <div data-min="0" data-max="150000"  data-min-name="min_price" data-max-name="max_price" data-unit="USD" class="range-slider-ui ui-slider" aria-disabled="false"></div>
+                                <div class="clearfix"></div>
+                            </div>
+                <div class="form-group">
+                    <button class="btn btn-block button-theme btn-md">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+       
+       
+    </div>
+</div>
+
+<div class="featured-car content-area-5">
+    <div class="container">
+      
+        <div class="main-title">
+            <h1>Available Cars</h1>
+            
+        </div>
+     
+        <div class="slick-slider-area clearfix">
+            <div class="row slick-carousel"  data-slick='{"slidesToShow": 3, "responsive":[{"breakpoint": 1024,"settings":{"slidesToShow": 2}}, {"breakpoint": 768,"settings":{"slidesToShow": 1}}]}'>
+                {% for car in all_cars %}
+                <div class="slick-slide-item">
+                    <div class="car-box-3">
+                        <div class="car-thumbnail">
+                            <a href="{% url 'car_detail' car.id %}" class="car-img">
+                                <div class="price-box">
+                                    <span>PLN per day {{car.price}}</span>
+                                </div>
+                                <img class="d-block w-100" src="{{car.car_photo.url}}" alt="car" style="min-height: 262px; max-height: 262px;">
+                            </a>
+                            <div class="carbox-overlap-wrapper">
+                                <div class="overlap-box">
+                                    <div class="overlap-btns-area">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h1 class="title">
+                                <a href="{% url 'car_detail' car.id %}">{{ car.car_title }}</a>
+                            </h1>
+                            <div class="location">
+                                <a href="{% url 'car_detail' car.id %}">
+                                    <i class="flaticon-pin"></i>{{car.city}}
+                                </a>
+                            </div>
+                            <ul class="facilities-list clearfix">
+                                <li>{{car.fuel_type}}</li>
+                                <li>{{car.color}}</li>
+                                <li>{{car.year}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+               
+                {% endfor %}
+        </div>
+        <div class="slick-btn">
+            <div class="slick-prev slick-arrow-buton sab-4">
+                <i class="fa fa-angle-left"></i>
+            </div>
+            <div class="slick-next slick-arrow-buton sab-3">
+                <i class="fa fa-angle-right"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+{% endblock %}

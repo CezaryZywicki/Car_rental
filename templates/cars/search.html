@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+
+{% block title %} | Search Result {% endblock %}
+{% block content %}
+
+<!-- Banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Search Results</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Search</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Banner end -->
+
+
+<!-- Featured car start -->
+<div class="featured-car content-area">
+    <div class="container">
+        <!-- Main title -->
+        <div class="main-title">
+            <h1>Here are your search results</h1>
+            <p>Select your the best car! Click on title to make a reservation.</p>
+        </div>
+        <div class="row">
+          {% for car in cars %}
+            <div class="col-lg-4 col-md-6">
+                <div class="car-box">
+                    <div class="car-thumbnail">
+                        <a href="{% url 'car_detail' car.id %}" class="car-img">
+                            <div class="tag">For Sale</div>
+                            <img class="d-block w-100" src="{{car.car_photo.url}}" alt="car" style="min-height: 262px; max-height: 262px;">
+                            <div class="facilities-list clearfix">
+                                <ul>
+                                  
+                                    <li>
+                                        <span><i class="flaticon-calendar-1"></i></span>{{car.year}}
+                                    </li>
+                                  
+                                </ul>
+                            </div>
+                        </a>
+                        <div class="carbox-overlap-wrapper">
+                            <div class="overlap-box">
+                                <div class="overlap-btns-area">
+                                    <div class="car-magnify-gallery">
+                                        <a href="{{car.car_photo.url}}" class="overlap-btn">
+                                            <i class="fa fa-expand"></i>
+                                            <img class="hidden" src="{{car.car_photo.url}}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail">
+                        <h1 class="title">
+                            <a href="{% url 'car_detail' car.id %}">{{car.car_title}}</a>
+                        </h1>
+                        <div class="location">
+                            <a href="{% url 'car_detail' car.id %}">
+                                <i class="flaticon-pin"></i>{{car.state}}, {{car.city}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="footer clearfix">
+                      
+                        <div class="pull-right">
+                            <p class="price">PLN {{car.price}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Featured car end -->
+
+{% endblock %}

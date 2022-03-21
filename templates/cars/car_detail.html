@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% block title %} | {{single_car.car_title}} {% endblock %}
+{% block content %}
+
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>{{ single_car.car_title }}</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">{{ single_car.car_title }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+
+<!-- Car details page start -->
+<div class="car-details-page content-area-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 col-xs-12">
+                <div class="car-details-section">
+                    <!-- Heading start -->
+                    <div class="heading-car clearfix">
+                        {% include 'includes/messages.html' %}
+                        <div class="pull-left">
+                            <h3>{{ single_car.car_title }}</h3>
+                            <h6>
+                                <i class="flaticon-pin"></i>{{ single_car.car_city }}
+                            </h6>
+                        </div>
+                        <div class="pull-right">
+                            <h3><span>{{single_car.price}} PLN/day</span></h3>
+                        </div>
+                    </div>
+                    <div id="carDetailsSlider" class="carousel car-details-sliders slide mb-40">
+                        <!-- main slider carousel items -->
+                        <div class="carousel-inner">
+                            <div class="active item carousel-item" data-slide-number="0">
+                                <img src="{{single_car.car_photo.url}}" class="img-fluid" alt="slider-car" style='max-width: 600px;'>
+                            </div>
+            
+                        </div>
+                        <div class="carousel-indicators-section clearfix">
+                            <ul class="carousel-indicators car-properties list-inline nav nav-justified">
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Tabbing box start -->
+                    <div class="tabbing tabbing-box mb-40">
+                        <ul class="nav nav-tabs" id="carTab" role="tablist" style='max-width: 600px'>
+                            <li class="nav-item">
+                                <a class="nav-link active show" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="one" aria-selected="false">Vehicle overview</a>
+                            </li>
+                            {% comment %} <li class="nav-item">
+                                <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="two" aria-selected="false">Features</a>
+                            </li> {% endcomment %}
+                        </ul>
+                        <div class="tab-content" id="carTabContent">
+                            <div class="tab-pane fade active show" id="one" role="tabpanel" aria-labelledby="one-tab">
+                                <div class="car-description mb-50">
+                                    <h3 class="heading-2">
+                                        Description
+                                    </h3>
+                                   <p>
+                                       {{single_car.description}}
+                                   </p>
+                                </div>
+                            </div>
+                            {% comment %} <div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="two-tab">
+                                <div class="features-info mb-50">
+                                    <h3 class="heading-2">Features</h3>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <ul>
+                                               
+                                               
+                                            </ul>
+                                        </div>
+                                        
+                                    
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                           
+                        </div>
+                    </div>
+                        
+                    
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="sidebar-right">
+                    <!-- Advanced search start -->
+                    <div class="widget advanced-search d-none-992">
+                        <button class="btn btn-outline-danger bomd btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Make a reservation</button>
+
+
+                        <br>
+                        <h3 class="sidebar-title">Details</h3>
+                        <ul>
+                            <li>
+                                <span>City:</span>{{single_car.city}}
+                            </li>
+                            <li>
+                                <span>Color:</span>{{single_car.color}}
+                            </li>
+                            <li>
+                                <span>Model:</span>{{single_car.model}}
+                            </li>
+                            <li>
+                                <span>Year:</span>{{single_car.year}}
+                            </li>
+                            <li>
+                                <span>Fuel Type:</span>{{single_car.fuel_type}}
+                            </li>
+                           
+                        </ul>
+                    </div>
+
+                    <!-- Inquiry Modal -->
+                    <div class="modal fade" id="inquiryModal" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="contact-dealer modal-header">
+                            <!-- <h5 class="modal-title" id="inquiryModalLabel">Contact Dealer</h5> -->
+                            
+                            <button type="button" class="close" data-dismiss="modal">
+                              <span>&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{% url 'inquiry' %}" method='POST'>
+                                {% csrf_token %}
+
+                                {% if user.is_authenticated %}
+                                <input type="hidden" name="user_id" value="{{user.id}}">
+                                {% else %}
+                                <input type="hidden" name="user_id" value="0">
+                                {% endif %}
+                                <input type="hidden" name="car_id" value="{{single_car.id}}">
+                                <div class="form-group">
+                                  <label for="name" class="col-form-label">Hello, please confirm your choice: </label>
+                                  <div class="row">
+                                    <div class="col">
+                                      <input type="text" name="first_name" class="form-control" placeholder="First Name" 
+                                      {% if user.is_authenticated %} value ='{{user.first_name}}' {% endif %} required>
+                                    </div>
+                                    <div class="col">
+                                      <input type="text" name="last_name" class="form-control" placeholder="Last Name" 
+                                      {% if user.is_authenticated %} value ='{{user.last_name}}' {% endif %}  required>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                
+                                <div class="form-group">
+                                  <input type="text" name="car_title" class="form-control" value="{{ single_car.car_title }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="city" class="form-control" value="{{ single_car.city }}" readonly>
+                                  </div>
+                               
+                                <div class="form-group">
+                                  <div class="row">
+                                   
+                                </div>
+                               
+                                <div class="select-reservations-dates">
+                                    <h8><b>Select your reservation dates below: </b></h8>
+                                    <br></br>
+                                </div>
+                                
+                                <div class="datepicker_label">
+                                <h9>Start Date:</h9>
+                                <input type="date" id="start" name="start_date"
+                                value="2022-03-01"
+                                min="2022-01-01" max="2022-12-31">
+                     
+                                </div>
+                                <br></br>
+                                <div class="datepicker_label">
+                                    <h9>End Date:  </h9>
+                                    <input type="date" id="start" name="end_date"
+                                    value="2022-03-31"
+                                    min="2022-01-01" max="2022-12-31">
+                 
+                 </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label for="message" class="col-form-label">Add comments</label>
+                                  <textarea name="message" class="form-control" placeholder="Enter your message here (optional)"></textarea>
+                                </div>
+                                <hr>
+                                <input type="submit" value="Send" class="btn btn-block btn-danger">
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Properties details page end -->
+
+{% endblock %}

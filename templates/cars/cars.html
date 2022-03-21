@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %} | Cars {% endblock %}
+{% block content %}
+
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Our Cars</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Cars</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+
+<!-- Featured car start -->
+<div class="featured-car content-area">
+    <div class="container">
+        <div class="row">
+           
+                  {% for car in cars %}
+                  <div class="col-lg-4 col-md-6">
+                        <div class="car-box-3">
+                            <div class="car-thumbnail">
+                                <a href="{% url 'car_detail' car.id %}" class="car-img">
+                                    <div class="tag">For Rent</div>
+                                    <div class="price-box">
+                                        <span> {{car.price}} PLN/DAY</span>
+                                    </div>
+                                    <img class="d-block w-100" src="{{car.car_photo.url}}" alt="car"  style="min-height: 262px; max-height: 262px;">
+                                </a>
+                                
+                            </div>
+                            <div class="detail">
+                                <h1 class="title">
+                                    <a href="{% url 'car_detail' car.id %}">{{car.car_title}}</a>
+                                </h1>
+                                <div class="location">
+                                    <a href="{% url 'car_detail' car.id %}">
+                                        <i class="flaticon-pin"></i> {{car.city}}
+                                    </a>
+                                </div>
+                                <ul class="facilities-list clearfix">
+                                    <li>{{car.fuel_type}}</li>
+                                    <li>{{car.color}}</li>
+                                    <li>{{car.year}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+
+
+
+                </div>
+                
+            </div>
+           
+        </div>
+    </div>
+</div>
+<!-- Featured car end -->
+
+{% endblock %}
